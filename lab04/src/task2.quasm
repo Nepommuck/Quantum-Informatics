@@ -1,0 +1,43 @@
+OPENQASM 2.0;
+include "qelib1.inc";
+
+// Lab 4 - Task 1
+// Quantum teleportation
+
+// Input qubit
+qreg i[1];
+
+u(0, 0, 0) i;
+// u(pi / 2, pi / 2, pi / 2) i;
+// u(pi / 3, 0, 0) i;
+
+// Operational qubit
+qreg q[1];
+
+// Output qubit
+qreg o[1];
+
+// Measurement bits
+creg m[2];
+
+barrier i, q, o; // @phaseDisk
+
+
+// Transition into Bell state
+h q;
+cx q, o;
+
+cx i, q;
+h i;
+
+barrier i, q;
+
+// Measurements
+measure q[0] -> m[1];
+measure i[0] -> m[0];
+
+// Adjustments using non-quantum communication
+cx q, o;
+cz i, o;
+
+barrier i, q, o; // @phaseDisk

@@ -1,0 +1,45 @@
+OPENQASM 2.0;
+include "qelib1.inc";
+
+// Lab 4 - Task 1
+// Superdense coding
+
+// Qubits for coding input value
+qreg i[2];
+
+// 00: [No gates required]
+
+// 01:
+// x i[0];
+
+// 10:
+// x i[1];
+
+// 11:
+// x i[0]; x i[1];
+
+// For imput other than `00`, uncomment given line!
+
+// Operational qubits
+qreg q[2];
+
+barrier i, q; // @phaseDisk
+
+
+// Transition into Bell state
+h q[0];
+cx q[0], q[1];
+
+barrier i, q;
+
+// Input value changes only the state of q0
+cx i[1], q[0];
+cz i[0], q[0];
+
+barrier i, q;
+
+// Transition back from Bell state
+cx q[0], q[1];
+h q[0];
+
+barrier i, q; // @phaseDisk
